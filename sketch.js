@@ -1,3 +1,7 @@
+// Todo: stick iframe to the bottom of the page
+// Todo:change the color of the html body
+
+
 var spotifyOpen = 0;
 var iframe;
 var myCanvas;
@@ -27,7 +31,7 @@ function preload() {
 }
 function setup() {
 
-  myCanvas = createCanvas(windowWidth, windowHeight, WEBGL);
+  myCanvas = createCanvas(windowWidth, windowHeight - 80, WEBGL);
   myCanvas.parent('myContainer');
 
   myCamera = createCamera();
@@ -95,7 +99,7 @@ function draw() {
   rotateX(PI / 2);
   rotateY(PI / 2);
   rotateZ(PI / 2);
-  translate(390, -180, 60);
+  translate(390, -127, 60);
   texture(tableTexture);
   model(table);
   pop();
