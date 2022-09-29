@@ -4,8 +4,11 @@ var myCanvas;
 var jazzRoom;
 var playBtn;
 var piano;
-var tables;
+var table;
 let mukta;
+var floor
+var wood;
+var iron;
 
 function preload() {
   jazzRoom = loadImage('images/jazz.png');
@@ -14,16 +17,17 @@ function preload() {
   window2 = loadImage('images/window2.png');
   playBtn = loadImage('images/play.png');
   mukta = loadFont('Mukta-Regular.ttf');
-
-  // table = loadModel('models/table.obj');
+  wood = loadImage('images/wood.jpg');
+  iron = loadImage('images/iron.jpg');
   piano = loadModel('models/Piano.obj');
   // piano = loadModel('models/pianoOld.obj');
-  tables = loadModel('models/Table.obj');
+  table = loadModel('models/Table.obj');
+  tableTexture = loadImage('images/tableTexture.png');
 
 }
 function setup() {
 
-  myCanvas = createCanvas(1000, 600, WEBGL);
+  myCanvas = createCanvas(windowWidth, windowHeight, WEBGL);
   myCanvas.parent('myContainer');
 
   myCamera = createCamera();
@@ -65,15 +69,37 @@ function draw() {
 
   pointLight(255, 250, 250, locX, locY, 50);
 
-
+  push();
+  noStroke();
+  scale(210);
+  rotateX(PI / 2);
+  rotateY(PI / 2);
+  rotateZ(PI / 2);
+  translate(-3.5, -2, 0);
+  texture(iron);
   model(piano);
+  pop();
+
+
+
 
   // jazz bar scene
   push();
   texture(jazzRoom)
   box(1000, 800, 0.1);
   pop();
-  // model(table);
+
+  push();
+  noStroke();
+  scale(3.2);
+  rotateX(PI / 2);
+  rotateY(PI / 2);
+  rotateZ(PI / 2);
+  translate(390, -180, 60);
+  texture(tableTexture);
+  model(table);
+  pop();
+
 
 
   // private room scene
@@ -171,10 +197,10 @@ function cameraMotion() {
     myCamera.move(10, 0, 0);
   } else if (keyIsDown(UP_ARROW)) {
     // myCamera.tilt(0.1);
-    myCamera.move(0, 0, 6);
+    myCamera.move(0, 0, 9);
   } else if (keyIsDown(DOWN_ARROW)) {
     // myCamera.tilt(-0.1);
-    myCamera.move(0, 0, -6);
+    myCamera.move(0, 0, -9);
   }
 }
 
