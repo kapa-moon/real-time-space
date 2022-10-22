@@ -1,6 +1,6 @@
-// Todo: stick iframe to the bottom of the page
-// Todo:change the color of the html body
 
+// Todo: change the color of the html body
+// import Friend from "./friend.js";
 
 var spotifyOpen = 0;
 var iframe;
@@ -13,6 +13,12 @@ let mukta;
 var floor
 var wood;
 var iron;
+
+// Live Media
+let myVideo;
+let myCamera;
+let friends = {};
+let liveMediaConnection;
 
 function preload() {
   jazzRoom = loadImage('images/jazz.png');
@@ -32,12 +38,47 @@ function preload() {
 function setup() {
 
   myCanvas = createCanvas(windowWidth, windowHeight - 80, WEBGL);
+
+  liveMediaConnection = new p5LiveMedia(this, null, null, "jazzy-cozy");
+  liveMediaConnection.on("stream", gotStream);
+  liveMediaConnection.on("data", gotData);
+  // Video if needed
+  myVideo = createCapture(VIDEO, gotLocalMediaStream);
+  myVideo.muted = true;
+  myVideo.hide();
+
   myCanvas.parent('myContainer');
 
   myCamera = createCamera();
   textFont(mukta);
   // textSize(50);
   textAlign(CENTER, CENTER);
+  // debugMode();
+
+}
+
+// fetch real-time data  
+function gotData(data, id) {
+  console.log("got incoming data from peer with ID", id);
+  console.log(data);
+  let parsedData = JSON.parse(data);
+  friends[id].update(parsedData.x, parsedData.y, parsedData.z);
+}
+
+// this function is called when our webcamera stream is ready
+function gotLocalMediaStream(stream) {
+  console.log("got local stream!");
+  liveMediaConnection.addStream(stream, "CAPTURE");
+}
+
+// this function is called when a remote stream is ready
+function gotStream(stream, id) {
+  console.log("got remote stream!");
+
+  friends[id] = new Friend(stream, id);
+
+  // hide the HTML <video> element
+  stream.hide();
 }
 
 
@@ -50,6 +91,8 @@ function draw() {
   stopMusic()
   background(26, 22, 26);
   image(playBtn, 550, 450);
+
+  //text for the play music hint
   push();
   textSize(80);
   text("Press P to play", -800, -1000);
@@ -65,8 +108,10 @@ function draw() {
 
   // ambientLight(255, 255, 255);
 
-  directionalLight(255, 255, 255, 0, 0, 1);
-  pointLight(255, 255, 255, 0, 0, 0);
+
+  // BUG DELIGHT
+  // directionalLight(255, 255, 255, 0, 0, 1);
+  // pointLight(255, 255, 255, 0, 0, 0);
 
   let locX = mouseX - width / 2;
   let locY = mouseY - height / 2;
@@ -83,7 +128,6 @@ function draw() {
   texture(iron);
   model(piano);
   pop();
-
 
 
 
@@ -136,82 +180,89 @@ function draw() {
   box(1, 800, 3000);
   pop();
 
+  push();
+  texture(myVideo);
+  translate(500, 0, 0);
+  box(200, 200, 300);
+  pop();
 
-}
-
-// function draw() {
-//   background(26, 22, 26);
-//   orbitControl();
-//   // box(1, 1, 1);
-//   // box(1000, 800, 100);
-//   push();
-//   model(piano);
-//   scale(300, 300);
-//   pop();
-
-
-// }
-
-function playMusic() {
-  if (playBtn.mouseIsPressed) {
-    openSpotify();
+  // Draw the other users
+  for (let id in friends) {
+    let p = friends[id];
+    p.show();
   }
-  else if (keyIsDown(80)) {
-    // play music
-    openSpotify();
+
+  // do this once every 10 frames
+  if (frameCount % 10 === 0) {
+    sharePosition();
   }
-}
 
-function stopMusic() {
-  if (keyIsDown(83)) {
-    // play music
-    closeSpotify();
+  function sharePosition() {
+    if (liveMediaConnection) {
+      let dataToSend = {
+        x: myCamera.eyeX,
+        y: myCamera.eyeY,
+        z: myCamera.eyeZ
+      }
+      liveMediaConnection.send(JSON.stringify(dataToSend));
+    }
   }
-}
 
-function openSpotify() {
-  if (spotifyOpen == 0) {
-    // closeSpotifyButton = createButton("X");
-    // closeSpotifyButton.position(myCanvas.width - closeSpotifyButton.height, myCanvas.height - closeSpotifyButton.height);
-    iframe = document.createElement('iframe');
-    iframe.src = "https://open.spotify.com/embed/playlist/4Gn6rgEi6D1kbXIn5qKHxV?utm_source=generator";
-    iframe.allow = "encrypted-media";
-    iframe.width = myCanvas.width;
-    iframe.height = "80";
-    iframe.style.borderRadius = "3px";
-    myContainer.appendChild(iframe);
-    spotifyOpen = 1;
-    // closeSpotifyButton.mousePressed(closeSpotify);
+
+  function playMusic() {
+    if (playBtn.mouseIsPressed) {
+      openSpotify();
+    }
+    else if (keyIsDown(80)) {
+      // play music
+      openSpotify();
+    }
   }
-}
 
-function closeSpotify() {
-  iframe.remove();
-  // closeSpotifyButton.remove();
-  spotifyOpen = 0;
-  redraw();
-}
-
-function cameraMotion() {
-  if (keyIsDown(LEFT_ARROW)) {
-    // myCamera.pan(0.1);
-    myCamera.move(-10, 0, 0);
-  } else if (keyIsDown(RIGHT_ARROW)) {
-    // myCamera.pan(-0.1);
-    myCamera.move(10, 0, 0);
-  } else if (keyIsDown(UP_ARROW)) {
-    // myCamera.tilt(0.1);
-    myCamera.move(0, 0, 9);
-  } else if (keyIsDown(DOWN_ARROW)) {
-    // myCamera.tilt(-0.1);
-    myCamera.move(0, 0, -9);
+  function stopMusic() {
+    if (keyIsDown(83)) {
+      // play music
+      closeSpotify();
+    }
   }
+
+  function openSpotify() {
+    if (spotifyOpen == 0) {
+      // closeSpotifyButton = createButton("X");
+      // closeSpotifyButton.position(myCanvas.width - closeSpotifyButton.height, myCanvas.height - closeSpotifyButton.height);
+      iframe = document.createElement('iframe');
+      iframe.src = "https://open.spotify.com/embed/playlist/4Gn6rgEi6D1kbXIn5qKHxV?utm_source=generator";
+      iframe.allow = "encrypted-media";
+      iframe.width = myCanvas.width;
+      iframe.height = "80";
+      iframe.style.borderRadius = "3px";
+      myContainer.appendChild(iframe);
+      spotifyOpen = 1;
+      // closeSpotifyButton.mousePressed(closeSpotify);
+    }
+  }
+
+  function closeSpotify() {
+    iframe.remove();
+    // closeSpotifyButton.remove();
+    spotifyOpen = 0;
+    redraw();
+  }
+
+  function cameraMotion() {
+    if (keyIsDown(LEFT_ARROW)) {
+      // myCamera.pan(0.1);
+      myCamera.move(-10, 0, 0);
+    } else if (keyIsDown(RIGHT_ARROW)) {
+      // myCamera.pan(-0.1);
+      myCamera.move(10, 0, 0);
+    } else if (keyIsDown(UP_ARROW)) {
+      // myCamera.tilt(0.1);
+      myCamera.move(0, 0, 9);
+    } else if (keyIsDown(DOWN_ARROW)) {
+      // myCamera.tilt(-0.1);
+      myCamera.move(0, 0, -9);
+    }
+  }
+
 }
-
-
-
-
-
-
-
-
