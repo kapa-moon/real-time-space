@@ -17,7 +17,7 @@ class Friend {
 
         //avatar draft
         push();
-        translate(this.x, this.y, this.z);
+        translate(this.x, 300, this.z);
         noStroke();
         let avatarColor = color(`hsla(38, 42%,    ${Math.abs(sin(Date.now() / 2000) * 80)}%, 0.6)`);
         fill(avatarColor);
@@ -26,18 +26,18 @@ class Friend {
         rotateY(PI / 2);
         rotateZ(PI / 2);
         translate(0, Math.abs(sin(Date.now() / 1000) * 15), 0);
-        cone(60, 100);
+        cone(110, 190);
         pop();
 
 
         push();
-        translate(0, -50, 0);
-        translate(this.x, this.y, this.z);
+        translate(0, -90, 0);
+        translate(this.x, 300, this.z);
         translate(0, -Math.abs(sin(Date.now() / 1000) * 15), 0);
         noStroke();
         let headColor = color(`rgb(255, 255, 255)`);
         fill(headColor);
-        sphere(30);
+        sphere(50);
         pop();
     }
 }

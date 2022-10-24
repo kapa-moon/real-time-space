@@ -1,3 +1,8 @@
+// import { Application } from '@splinetool/runtime';
+
+// const canvas = document.getElementById('canvas3d');
+// const app = new Application(canvas);
+// app.load('https://prod.spline.design/CQaLOliljSNl6Q-S/scene.splinecode');
 
 // Todo: change the color of the html body
 // import Friend from "./friend.js";
