@@ -333,7 +333,7 @@ function draw() {
 
   push();
   textSize(25);
-  translate(-493, -290, 700);
+  translate(-493, -150, 700);
   rotateY(PI / 2);
   fill(187, 216, 221);
   text(myInput.value(), 0, 0, 600, 300);

@@ -58,8 +58,11 @@ class Friend {
         pop();
 
         push();
-        textSize(200);
-        text(this.message, 200, -200, 200);
+        textSize(25);
+        translate(-493, -290, 700);
+        rotateY(PI / 2);
+        fill(187, 216, 221);
+        text(this.message, 0, 0, 600, 300);
         pop();
     }
 }
