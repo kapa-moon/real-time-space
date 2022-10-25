@@ -2,10 +2,20 @@ html,
 body {
 
   margin: 0;
-  padding: 0;
+  padding: 10;
+  font-family: 'Fuzzy Bubbles', cursive;
 }
 
 canvas {
   display: block;
   position: center;
+}
+
+p {
+  z-index: 9;
+  margin: 3px;
+  padding: 10;
+  margin: 0;
+  background-color: rgb(26, 22, 26);
+  color: rgb(255, 247, 247);
 }

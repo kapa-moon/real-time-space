@@ -15,23 +15,28 @@ var playBtn;
 var piano;
 var table;
 let mukta;
+let fuzzy;
 var floor
 var wood;
 var iron;
+var end;
 
 // Live Media
 let myVideo;
 let myCamera;
+let myInput;
 let friends = {};
 let liveMediaConnection;
 
 function preload() {
   jazzRoom = loadImage('images/jazz.png');
   floor = loadImage('images/floor.png');
+  end = loadImage('images/end.png');
   windowView = loadImage('images/window.png');
   window2 = loadImage('images/window2.png');
   playBtn = loadImage('images/play.png');
   mukta = loadFont('Mukta-Regular.ttf');
+  fuzzy = loadFont('FuzzyBubbles-Regular.ttf');
   wood = loadImage('images/wood.jpg');
   iron = loadImage('images/iron.jpg');
   piano = loadModel('models/Piano.obj');
@@ -55,10 +60,15 @@ function setup() {
   myCanvas.parent('myContainer');
 
   myCamera = createCamera();
-  textFont(mukta);
+  // textFont(mukta);
+  textFont(fuzzy);
   // textSize(50);
   textAlign(CENTER, CENTER);
   // debugMode();
+
+  myInput = createInput();
+  myInput.parent('myContainer');
+  myInput.position(0, 0);
 
 }
 
@@ -67,7 +77,7 @@ function gotData(data, id) {
   console.log("got incoming data from peer with ID", id);
   console.log(data);
   let parsedData = JSON.parse(data);
-  friends[id].update(parsedData.x, parsedData.y, parsedData.z);
+  friends[id].update(parsedData.x, parsedData.y, parsedData.z, parsedData.message);
 }
 
 // this function is called when our webcamera stream is ready
@@ -100,6 +110,7 @@ function draw() {
   //text for the play music hint
   push();
   textSize(80);
+  textFont(mukta);
   text("Press P to play", -800, -1000);
   pop();
 
@@ -157,9 +168,15 @@ function draw() {
 
   // private room scene
   push();
-  // sphere(30);
   texture(window2);
   translate(0, 0, -1500);
+  box(1000, 800, 0.1);
+  pop();
+
+  // end scene
+  push();
+  texture(window2);
+  translate(0, 0, -1800);
   box(1000, 800, 0.1);
   pop();
 
@@ -185,11 +202,11 @@ function draw() {
   box(1, 800, 3000);
   pop();
 
-  push();
-  texture(myVideo);
-  translate(500, 0, 0);
-  box(200, 200, 300);
-  pop();
+  // push();
+  // texture(myVideo);
+  // translate(500, 0, 0);
+  // box(200, 200, 300);
+  // pop();
 
   // Draw the other users
   for (let id in friends) {
@@ -207,8 +224,9 @@ function draw() {
       let dataToSend = {
         x: myCamera.eyeX,
         y: myCamera.eyeY,
-        z: myCamera.eyeZ
-      }
+        z: myCamera.eyeZ,
+        message: myInput.value()
+      };
       liveMediaConnection.send(JSON.stringify(dataToSend));
     }
   }

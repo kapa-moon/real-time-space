@@ -4,13 +4,21 @@ class Friend {
         this.x = 0;
         this.y = 0;
         this.z = 0;
+        this.message = "";
         this.stream = stream;
     }
 
-    update(x, y, z) {
+    update(x, y, z, message) {
         this.x = x;
         this.y = y;
         this.z = z;
+        this.message = message;
+    }
+
+    draw() {
+        push();
+        text(this.message, this.x, 200, this.z);
+        pop();
     }
 
     show() {
