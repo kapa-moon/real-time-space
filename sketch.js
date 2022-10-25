@@ -230,7 +230,6 @@ function draw() {
   translate(0, 0, -1800);
   box(1000, 800, 0.1);
   drawingContext.shadowBlur = 12;
-  // drawingContext.shadowColor = color(332, 7, 99);
   drawingContext.shadowColor = color(`hsb(332, 58, 91, 100)`);
   translate(0, 0, -1000);
   textSize(100);
@@ -247,7 +246,6 @@ function draw() {
   translate(-500, -120, 1100);
   rotateY(PI / 2);
   texture(deco1);
-  // box(15, 300, 500);
   box(300, 200, 15);
   pop();
 
@@ -255,7 +253,6 @@ function draw() {
   translate(-500, -150, -900);
   rotateY(PI / 2);
   texture(girl);
-  // box(15, 300, 500);
   box(300, 200, 15);
   pop();
 
@@ -263,7 +260,6 @@ function draw() {
   translate(500, 0, -300);
   rotateY(-PI / 2);
   texture(code);
-  // box(15, 300, 500);
   box(350, 250, 15);
   pop();
 
@@ -331,19 +327,17 @@ function draw() {
     translate(-493, -290, 700);
     rotateY(PI / 2);
     fill(187, 216, 221);
-    text(p.message(), 0, 0, 600, 300);
+    text(p.message, 0, 0, 600, 300);
     pop();
-
-    // console.log(p.message);
   }
 
-  // push();
-  // textSize(25);
-  // translate(-493, -290, 700);
-  // rotateY(PI / 2);
-  // fill(187, 216, 221);
-  // text(myInput.value(), 0, 0, 600, 300);
-  // pop();
+  push();
+  textSize(25);
+  translate(-493, -290, 700);
+  rotateY(PI / 2);
+  fill(187, 216, 221);
+  text(myInput.value(), 0, 0, 600, 300);
+  pop();
 
   // do this once every 10 frames
   if (frameCount % 8 === 0) {
@@ -407,5 +401,3 @@ function cameraMotion() {
     myCamera.move(0, 0, -9);
   }
 }
-
-// }
