@@ -16,9 +16,9 @@ class Friend {
     }
 
     draw() {
-        push();
-        text(this.message, this.x, 200, this.z);
-        pop();
+        // push();
+        // text(this.message, this.x, 200, this.z);
+        // pop();
     }
 
     show() {

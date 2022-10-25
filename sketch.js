@@ -280,13 +280,13 @@ function draw() {
   box(600, 400, 10);
   pop();
 
-  push();
-  textSize(25);
-  translate(-493, -290, 700);
-  rotateY(PI / 2);
-  fill(187, 216, 221);
-  text(myInput.value(), 0, 0, 600, 300);
-  pop();
+  // push();
+  // textSize(25);
+  // translate(-493, -150, 700);
+  // rotateY(PI / 2);
+  // fill(187, 216, 221);
+  // text(myInput.value(), 0, 0, 600, 300);
+  // pop();
 
 
   // wood floor
