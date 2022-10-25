@@ -4,7 +4,7 @@ class Friend {
         this.x = 0;
         this.y = 0;
         this.z = 0;
-        this.message = "";
+        this.message = "hi";
         this.stream = stream;
     }
 
@@ -37,6 +37,15 @@ class Friend {
         cone(110, 190);
         pop();
 
+        push();
+        translate(0, -150, 0);
+        translate(this.x, 300, this.z);
+        translate(0, -Math.abs(sin(Date.now() / 1000) * 15), 0);
+        noStroke();
+        texture(this.stream);
+        cylinder(80, 5);
+        pop();
+
 
         push();
         translate(0, -90, 0);
@@ -46,6 +55,11 @@ class Friend {
         let headColor = color(`rgb(255, 255, 255)`);
         fill(headColor);
         sphere(50);
+        pop();
+
+        push();
+        textSize(200);
+        text(this.message, 200, -200, 200);
         pop();
     }
 }
