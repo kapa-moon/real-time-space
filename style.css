@@ -11,11 +11,13 @@ canvas {
   position: center;
 }
 
-p {
+.begin {
   z-index: 9;
   margin: 3px;
   padding: 10;
   margin: 0;
   background-color: rgb(26, 22, 26);
   color: rgb(255, 247, 247);
+  display: flex;
+  justify-content: space-between;
 }
