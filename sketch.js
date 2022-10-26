@@ -280,13 +280,6 @@ function draw() {
   box(600, 400, 10);
   pop();
 
-  // push();
-  // textSize(25);
-  // translate(-493, -150, 700);
-  // rotateY(PI / 2);
-  // fill(187, 216, 221);
-  // text(myInput.value(), 0, 0, 600, 300);
-  // pop();
 
 
   // wood floor
@@ -356,12 +349,12 @@ function playMusic() {
   }
 }
 
-function stopMusic() {
-  if (keyIsDown(83)) {
-    // play music
-    closeSpotify();
-  }
-}
+// function stopMusic() {
+//   if (keyIsDown(83)) {
+//     // play music
+//     closeSpotify();
+//   }
+// }
 
 function openSpotify() {
   if (spotifyOpen == 0) {
