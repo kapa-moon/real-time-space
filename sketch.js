@@ -349,12 +349,12 @@ function playMusic() {
   }
 }
 
-// function stopMusic() {
-//   if (keyIsDown(83)) {
-//     // play music
-//     closeSpotify();
-//   }
-// }
+function stopMusic() {
+  if (keyIsDown(83)) {
+    // play music
+    closeSpotify();
+  }
+}
 
 function openSpotify() {
   if (spotifyOpen == 0) {
