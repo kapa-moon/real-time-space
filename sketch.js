@@ -140,7 +140,7 @@ function draw() {
   orbitControl();
   cameraMotion();
   playMusic();
-  stopMusic()
+  stopMusic();
   background(26, 22, 26);
 
 
